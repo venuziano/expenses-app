@@ -8,7 +8,6 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  // ResponsiveContainer,
 } from "recharts";
 
 export default function DashboardPage() {
@@ -19,7 +18,7 @@ export default function DashboardPage() {
   useEffect(() => {
     if (!email) return;
     axios
-      .get(`http://localhost:3010/expense/by/user/email/${email}`)
+      .get(`${import.meta.env.VITE_API_URL}/expense/by/user/email/${email}`)
       .then((res) => {
         setExpenses(res.data);
 

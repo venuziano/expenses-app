@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    // Target modern browsers / ESNext modules
+    "target": "ESNext",
+    "module": "ESNext",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+
+    // Enable TypeScript’s strictest type-checking options
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,                    // don’t output compiled files
+    "isolatedModules": true,           // required by Vite
+
+    // JSX support
+    "jsx": "react-jsx",                // for React 17+; use "react" for older versions
+
+    // Module resolution
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+
+    // Path aliases (optional — adjust to taste)
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+
+    // Include Vite’s helpers for import.meta.env
+    "types": ["vite/client"],
+
+    "noImplicitAny": false
+  },
+  "include": [
+    "src",     // your source files
+    "env.d.ts" // for our env declarations
+  ],
+  "exclude": ["node_modules", "dist"]
+}
