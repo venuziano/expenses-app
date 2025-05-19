@@ -9,11 +9,11 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 
-import { CreateExpenseDto } from '../dto/expense/create-expense.dto';
 import { ExpenseService } from 'src/services/expense.service';
-import { WhatsAppService } from 'src/services/whatsapp.service';
+import { WhatsAppService } from 'src/whatsapp/services/whatsapp.service';
 import { AppEnvConfigService } from 'src/config/environment-variables/app-env.config';
 import { UsersService } from 'src/services/users.service';
+import { MessageRouterService } from './services/message-router.service';
 
 class WebhookVerifyDto {
   'hub.mode': string;
@@ -42,6 +42,7 @@ export class WhatsAppWebhookController {
     private readonly expenseService: ExpenseService,
     private readonly userService: UsersService,
     private readonly whatsappService: WhatsAppService,
+    private readonly messageRouterService: MessageRouterService,
     private readonly config: AppEnvConfigService,
   ) {}
 
@@ -77,10 +78,10 @@ export class WhatsAppWebhookController {
 
     if (!user) throw new Error('User not found');
 
-    const dto: CreateExpenseDto = { message: text, userId: user.id };
     try {
-      await this.expenseService.create(dto);
+      // await this.expenseService.create(dto);
       // 2) Acknowledge
+      await this.messageRouterService.route(text, user.id);
       await this.whatsappService.sendText(from, '✅ Expense recorded!');
     } catch (e) {
       this.logger.error('Error saving expense', e);

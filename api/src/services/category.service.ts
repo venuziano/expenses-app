@@ -32,4 +32,16 @@ export class CategoryService {
   remove(id: number) {
     return `This action removes a #${id} category`;
   }
+
+  async identifyCategory(lower: string): Promise<number> {
+    const categories = await this.findAll();
+    for (const { id, regex } of categories) {
+      // use word-boundaries if you like: new RegExp(`\\b(${regex.join('|')})\\b`)
+      if (regex.some((p) => lower.includes(p))) {
+        return id;
+      }
+    }
+    return 1;
+    // return 'outros';
+  }
 }

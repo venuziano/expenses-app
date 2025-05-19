@@ -54,7 +54,6 @@ export class ExpenseController {
   @ApiCreatedResponse({
     description: 'User expense retrieved successfully',
     type: Expense,
-    // type: Expense,
   })
   @ApiBadRequestResponse({ description: 'Invalid request' })
   findAllByUserId() {

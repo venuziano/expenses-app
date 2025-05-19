@@ -105,7 +105,7 @@ export class ExpenseService {
   async processMessage(message: string): Promise<ProcessedExpense> {
     const lower = message.toLowerCase();
     const amount = this.extractAmount(message);
-    const categoryId = await this.identifyCategory(lower);
+    const categoryId = await this.categoryService.identifyCategory(lower);
     const date = this.extractDate(lower);
     return { amount, categoryId, date };
   }
@@ -122,18 +122,6 @@ export class ExpenseService {
 
     const n = parseFloat(normalized);
     return isNaN(n) ? null : n;
-  }
-
-  private async identifyCategory(lower: string): Promise<number> {
-    const categories = await this.categoryService.findAll();
-    for (const { id, regex } of categories) {
-      // use word-boundaries if you like: new RegExp(`\\b(${regex.join('|')})\\b`)
-      if (regex.some((p) => lower.includes(p))) {
-        return id;
-      }
-    }
-    return 1;
-    // return 'outros';
   }
 
   private extractDate(lower: string): Date {

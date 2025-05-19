@@ -9,7 +9,7 @@ import { SubscriptionModule } from './modules/subscription.module';
 import { CategoryModule } from './modules/category.module';
 import { ExpenseModule } from './modules/expense.module';
 import { TwilioModule } from './modules/twilio.module';
-import { WhatsAppModule } from './modules/whatsapp.module';
+import { WhatsAppModule } from './whatsapp/whatsapp.module';
 
 @Module({
   imports: [
