@@ -37,7 +37,7 @@ jobs:
           port: ${{ secrets.SSH_PORT || 22 }}
           script: |
             set -e
-            cd /srv/my-node-app   # this is your monorepo root on the server
+            cd /home/ubuntu/repo/expenses-app
             git fetch --all
             git reset --hard origin/master
             # now install just the API and reload it
