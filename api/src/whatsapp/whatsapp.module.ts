@@ -10,7 +10,7 @@ import { UsersModule } from '../modules/users.module';
 // import { UsersService } from 'src/services/users.service';
 import { MessageRouterService } from './services/message-router.service';
 import { ExpenseEntryHandler } from './handlers/expense-entry.handler';
-import { SpendQueryHandler } from './handlers/spend-query.handler';
+// import { SpendQueryHandler } from './handlers/spend-query.handler';
 import { CategoryModule } from 'src/modules/category.module';
 
 @Module({
@@ -28,15 +28,20 @@ import { CategoryModule } from 'src/modules/category.module';
     WhatsAppService,
     MessageRouterService,
     ExpenseEntryHandler,
-    SpendQueryHandler,
+    // SpendQueryHandler,
     {
       provide: 'WHATSAPP_HANDLERS',
-      useFactory: (
-        expenseEntry: ExpenseEntryHandler,
-        spendQuery: SpendQueryHandler,
-      ) => [expenseEntry, spendQuery],
-      inject: [ExpenseEntryHandler, SpendQueryHandler],
+      useFactory: (expenseEntry: ExpenseEntryHandler) => [expenseEntry],
+      inject: [ExpenseEntryHandler],
     },
+    // {
+    //   provide: 'WHATSAPP_HANDLERS',
+    //   useFactory: (
+    //     expenseEntry: ExpenseEntryHandler,
+    //     spendQuery: SpendQueryHandler,
+    //   ) => [expenseEntry, spendQuery],
+    //   inject: [ExpenseEntryHandler, SpendQueryHandler],
+    // },
   ],
 })
 export class WhatsAppModule {}
