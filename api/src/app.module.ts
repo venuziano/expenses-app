@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -10,19 +11,25 @@ import { CategoryModule } from './modules/category.module';
 import { ExpenseModule } from './modules/expense.module';
 import { TwilioModule } from './modules/twilio.module';
 import { WhatsAppModule } from './whatsapp/whatsapp.module';
+import { AppEnvConfigService } from './config/environment-variables/app-env.config';
 
 @Module({
   imports: [
-    DatabaseModule,
-    UsersModule,
-    SubscriptionPlansModule,
-    SubscriptionModule,
-    CategoryModule,
-    ExpenseModule,
-    TwilioModule,
-    WhatsAppModule,
+    ConfigModule.forRoot({
+      isGlobal: true, // no need to import ConfigModule again in sub-modules
+      envFilePath: ['.env'], // point to your .env if you have one
+    }),
+    // AppEnvConfigService,
+    // DatabaseModule,
+    // UsersModule,
+    // SubscriptionPlansModule,
+    // SubscriptionModule,
+    // CategoryModule,
+    // ExpenseModule,
+    // TwilioModule,
+    // WhatsAppModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AppEnvConfigService],
 })
 export class AppModule {}
