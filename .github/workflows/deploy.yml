@@ -1,5 +1,9 @@
 name: Deploy API to EC2
 
+concurrency:
+  group: deploy-api
+  cancel-in-progress: true
+
 on:
   push:
     branches:
@@ -13,34 +17,35 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
-        uses: actions/checkout@v4
-
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-
-      # Install & build **only** the API
-      - name: Install dependencies & build API
+      - name: Build API on runner
         working-directory: api
         run: |
           npm ci
-          npm run build   # if you have a build step
-
-      - name: Sync & reload API on EC2
+          npm run build
+      - name: Sync API to EC2
         uses: appleboy/ssh-action@v0.1.9
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SSH_PORT || 22 }}
           script: |
             set -e
-            cd /home/ubuntu/repo/expenses-app
-            git fetch --all
-            git reset --hard origin/master
-            # now install just the API and reload it
-            cd api
-            npm ci
-            pm2 reload ../ecosystem.config.js --env production
+            cd /home/ubuntu/repo/expenses-app/api
+            mkdir -p releases
+      - name: Rsync dist folder
+        uses: burnett01/rsync-deployments@v4
+        with:
+          switches: -avz --delete
+          path: api/dist/
+          remote_host: ${{ secrets.EC2_HOST }}
+          remote_user: ${{ secrets.EC2_USER }}
+          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          remote_path: /home/ubuntu/repo/expenses-app/api/dist
+      - name: Reload PM2 on EC2
+        uses: appleboy/ssh-action@v0.1.9
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            pm2 reload /home/ubuntu/repo/expenses-app/ecosystem.config.js --env production
