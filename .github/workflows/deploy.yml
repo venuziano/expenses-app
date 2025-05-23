@@ -8,31 +8,29 @@ on:
   push:
     branches:
       - master
-    # (optional) only run when files in /api change:
     paths:
       - 'api/**'
-      - '.github/workflows/deploy.yml'
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Build API on runner
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install & build API
         working-directory: api
         run: |
           npm ci
           npm run build
-      - name: Sync API to EC2
-        uses: appleboy/ssh-action@v0.1.9
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            set -e
-            cd /home/ubuntu/repo/expenses-app/api
-            mkdir -p releases
-      - name: Rsync dist folder
+
+      - name: Sync dist folder to EC2
         uses: burnett01/rsync-deployments@v4
         with:
           switches: -avz --delete
@@ -41,6 +39,7 @@ jobs:
           remote_user: ${{ secrets.EC2_USER }}
           remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
           remote_path: /home/ubuntu/repo/expenses-app/api/dist
+
       - name: Reload PM2 on EC2
         uses: appleboy/ssh-action@v0.1.9
         with:
@@ -48,4 +47,5 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            pm2 reload /home/ubuntu/repo/expenses-app/ecosystem.config.js --env production
+            # ensure we’re using your ecosystem file
+            pm2 startOrReload /home/ubuntu/repo/expenses-app/ecosystem.config.js --env production
