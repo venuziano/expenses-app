@@ -23,7 +23,7 @@ export class User {
   @Column({ length: 50, nullable: true, name: 'stripe_customer_id' })
   stripeCustomerId?: string;
 
-  @Column({ length: 30, unique: true })
+  @Column({ length: 30, unique: true, name: 'whatsappnumber' })
   whatsappNumber: string;
 
   @OneToMany(() => Subscription, (s) => s.user) subscriptions: Subscription[];
