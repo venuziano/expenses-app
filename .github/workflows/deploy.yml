@@ -19,10 +19,10 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
 
-      - name: Use Node.js 18.x
+      - name: Use Node.js 20.x
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '20'
 
       - name: Install & build API
         working-directory: api
@@ -48,4 +48,4 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             # ensure we’re using your ecosystem file
-            pm2 startOrReload /home/ubuntu/repo/expenses-app/ecosystem.config.js --env production
+            pm2 startOrReload /home/ubuntu/repo/expenses-app/api/ecosystem.config.js --env production
