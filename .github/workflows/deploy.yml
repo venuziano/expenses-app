@@ -40,6 +40,23 @@ jobs:
           remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
           remote_path: /home/ubuntu/repo/expenses-app/api/dist
 
+      # ── NEW STEP: push down an .env ───────────────────────────────
+      - name: Upload .env to EC2
+        uses: appleboy/ssh-action@v0.1.9
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cat > /home/ubuntu/repo/expenses-app/api/.env <<EOF
+            NODE_ENV=production
+            DB_HOST=${{ secrets.DB_HOST }}
+            DB_PORT=${{ secrets.DB_PORT }}
+            DB_USERNAME=${{ secrets.DB_USERNAME }}
+            DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+            DB_NAME=${{ secrets.DB_NAME }}
+            EOF
+
       - name: Reload PM2 on EC2
         uses: appleboy/ssh-action@v0.1.9
         with:
@@ -47,6 +64,5 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            # ensure we’re using your ecosystem file
             cd /home/ubuntu/repo/expenses-app/api
-            pm2 startOrReload ecosystem.config.js --env production
+            pm2 startOrReload ecosystem.config.js --env production --update-env
