@@ -70,5 +70,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /home/ubuntu/repo/expenses-app/api
+            cd /home/ubuntu/repo/expenses-app/
+            git pull origin master
+            cd api/
             pm2 startOrReload ecosystem.config.js --env production --update-env
