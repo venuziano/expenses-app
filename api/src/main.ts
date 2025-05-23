@@ -15,7 +15,7 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       'http://localhost:5173',
-      'https://expenses-app-seven-ruby.vercel.app/',
+      'https://expenses-app-seven-ruby.vercel.app',
     ], // your React dev server
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     // credentials: true, // if you ever send cookies/auth headers
