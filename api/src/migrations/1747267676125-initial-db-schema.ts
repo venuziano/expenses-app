@@ -15,7 +15,7 @@ export class InitSchema1684123456789 implements MigrationInterface {
         stripe_customer_id VARCHAR(50),
         created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
         updated_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
-        deleted_at TIMESTAMP WITH TIME ZONE
+        deleted_at TIMESTAMP WITH TIME ZONE,
         verified_at TIMESTAMP WITH TIME ZONE
       );
     `);
