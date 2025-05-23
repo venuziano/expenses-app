@@ -50,11 +50,16 @@ jobs:
           script: |
             cat > /home/ubuntu/repo/expenses-app/api/.env <<EOF
             NODE_ENV=production
-            DB_HOST=${{ secrets.DB_HOST }}
-            DB_PORT=${{ secrets.DB_PORT }}
-            DB_USERNAME=${{ secrets.DB_USERNAME }}
+            HOST=${{ secrets.HOST }}
+            DATABASE=${{ secrets.DATABASE }}
+            PG_PORT=${{ secrets.PG_PORT }}
+            DB_USER=${{ secrets.DB_USER }}
             DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-            DB_NAME=${{ secrets.DB_NAME }}
+            PG_TYPE=${{ secrets.PG_TYPE }}
+            API_PORT=${{ secrets.API_PORT }}
+            WHATSAPP_TOKEN=${{ secrets.WHATSAPP_TOKEN }}
+            WHATSAPP_VERIFY_TOKEN=${{ secrets.WHATSAPP_VERIFY_TOKEN }}
+            WHATSAPP_PHONE_NUMBER_ID=${{ secrets.WHATSAPP_PHONE_NUMBER_ID }}
             EOF
 
       - name: Reload PM2 on EC2
