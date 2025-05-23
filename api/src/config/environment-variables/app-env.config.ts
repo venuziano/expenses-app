@@ -23,7 +23,7 @@ export class AppEnvConfigService {
   }
 
   get dbUsername(): string {
-    return this.configService.get<string>('USERNAME')!;
+    return this.configService.get<string>('DB_USER')!;
   }
 
   get dbName(): string {
@@ -31,7 +31,7 @@ export class AppEnvConfigService {
   }
 
   get dbPassword(): string {
-    return this.configService.get<string>('PASSWORD')!;
+    return this.configService.get<string>('DB_PASSWORD')!;
   }
 
   get twilioFrom(): string {
