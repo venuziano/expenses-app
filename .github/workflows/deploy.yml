@@ -48,4 +48,5 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             # ensure we’re using your ecosystem file
-            pm2 startOrReload /home/ubuntu/repo/expenses-app/api/ecosystem.config.js --env production
+            cd /home/ubuntu/repo/expenses-app/api
+            pm2 startOrReload ecosystem.config.js --env production
