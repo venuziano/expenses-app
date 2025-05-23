@@ -31,7 +31,7 @@ jobs:
           npm run build
 
       - name: Sync dist folder to EC2
-        uses: burnett01/[email protected]
+        uses: burnett01/rsync-deployments@7.0.2
         with:
           switches: -avz --delete
           path: api/dist/
