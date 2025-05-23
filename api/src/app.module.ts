@@ -15,21 +15,20 @@ import { AppEnvConfigService } from './config/environment-variables/app-env.conf
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true, // no need to import ConfigModule again in sub-modules
-      envFilePath: ['.env'], // point to your .env if you have one
-    }),
-    // AppEnvConfigService,
-    // DatabaseModule,
-    // UsersModule,
-    // SubscriptionPlansModule,
-    // SubscriptionModule,
-    // CategoryModule,
-    // ExpenseModule,
-    // TwilioModule,
-    // WhatsAppModule,
+    // ConfigModule.forRoot({
+    //   isGlobal: true, // no need to import ConfigModule again in sub-modules
+    //   envFilePath: ['.env'], // point to your .env if you have one
+    // }),
+    DatabaseModule,
+    UsersModule,
+    SubscriptionPlansModule,
+    SubscriptionModule,
+    CategoryModule,
+    ExpenseModule,
+    TwilioModule,
+    WhatsAppModule,
   ],
   controllers: [AppController],
-  providers: [AppService, AppEnvConfigService],
+  providers: [AppService],
 })
 export class AppModule {}
