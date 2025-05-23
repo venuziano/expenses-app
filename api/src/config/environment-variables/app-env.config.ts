@@ -26,6 +26,10 @@ export class AppEnvConfigService {
     return this.configService.get<string>('DB_USER')!;
   }
 
+  get dbUseSSL(): string {
+    return this.configService.get<string>('DB_USE_SSL')!;
+  }
+
   get dbName(): string {
     return this.configService.get<string>('DATABASE')!;
   }

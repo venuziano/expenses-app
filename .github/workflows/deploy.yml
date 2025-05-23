@@ -54,6 +54,7 @@ jobs:
             DATABASE=${{ secrets.DATABASE }}
             PG_PORT=${{ secrets.PG_PORT }}
             DB_USER=${{ secrets.DB_USER }}
+            DB_USE_SSL=${{ secrets.DB_USE_SSL }}
             DB_PASSWORD=${{ secrets.DB_PASSWORD }}
             PG_TYPE=${{ secrets.PG_TYPE }}
             API_PORT=${{ secrets.API_PORT }}

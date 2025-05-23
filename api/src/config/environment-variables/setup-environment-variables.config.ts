@@ -14,6 +14,7 @@ import Joi from 'joi';
         PG_PORT: Joi.number().required(),
         DB_USER: Joi.string().required(),
         DB_PASSWORD: Joi.string().required(),
+        DB_USE_SSL: Joi.boolean().required(),
         DATABASE: Joi.string().required(),
         TWILIO_ACCOUNT_SID: Joi.string().required(),
         TWILIO_AUTH_TOKEN: Joi.string().required(),

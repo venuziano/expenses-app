@@ -4,6 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppEnvConfigService } from 'src/config/environment-variables/app-env.config';
 import { ConfigModule } from 'src/config/app-custom-module.config';
 
+const isRds: boolean = process.env.DB_USE_SSL === 'true';
+
 @Global()
 @Module({
   imports: [
@@ -20,6 +22,10 @@ import { ConfigModule } from 'src/config/app-custom-module.config';
         synchronize: false,
         // synchronize: config.dbSynchronize,
         // logging: true,
+        ssl: isRds,
+
+        // pg-specific extras
+        extra: isRds ? { ssl: { rejectUnauthorized: false } } : {},
       }),
       inject: [AppEnvConfigService], // Inject AppConfigService
     }),
