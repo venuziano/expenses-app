@@ -11,6 +11,8 @@ import { Expense } from 'src/entities/expense.entity';
 
 dotenv.config();
 
+const isRds: boolean = process.env.DB_USE_SSL === 'true';
+
 export const AppDataSource = new DataSource({
   type: 'postgres',
   host: process.env.HOST,
@@ -20,4 +22,6 @@ export const AppDataSource = new DataSource({
   database: process.env.DATABASE,
   entities: [User, Category, SubscriptionPlan, Subscription, Expense],
   migrations: [join(__dirname, '../migrations/*.{ts,js}')],
+  ssl: isRds,
+  extra: isRds ? { ssl: { rejectUnauthorized: false } } : {},
 });
